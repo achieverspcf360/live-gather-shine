@@ -14,16 +14,254 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      events: {
+        Row: {
+          auto_approve: boolean
+          banner_url: string | null
+          created_at: string
+          currency: string | null
+          description: string | null
+          end_at: string | null
+          fundraising_goal: number | null
+          id: string
+          is_live: boolean
+          organization_id: string
+          projection_theme: string | null
+          slug: string
+          start_at: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          auto_approve?: boolean
+          banner_url?: string | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          end_at?: string | null
+          fundraising_goal?: number | null
+          id?: string
+          is_live?: boolean
+          organization_id: string
+          projection_theme?: string | null
+          slug: string
+          start_at?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          auto_approve?: boolean
+          banner_url?: string | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          end_at?: string | null
+          fundraising_goal?: number | null
+          id?: string
+          is_live?: boolean
+          organization_id?: string
+          projection_theme?: string | null
+          slug?: string
+          start_at?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          accent_color: string | null
+          address: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          description: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          owner_id: string
+          primary_color: string | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          accent_color?: string | null
+          address?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          owner_id: string
+          primary_color?: string | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          accent_color?: string | null
+          address?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          owner_id?: string
+          primary_color?: string | null
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      submissions: {
+        Row: {
+          amount: number | null
+          approved_at: string | null
+          created_at: string
+          currency: string | null
+          email: string | null
+          event_id: string
+          full_name: string | null
+          group_name: string | null
+          id: string
+          is_anonymous: boolean
+          is_featured: boolean
+          is_pinned: boolean
+          kind: Database["public"]["Enums"]["submission_kind"]
+          message: string | null
+          organization_id: string
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          phone: string | null
+          status: Database["public"]["Enums"]["submission_status"]
+        }
+        Insert: {
+          amount?: number | null
+          approved_at?: string | null
+          created_at?: string
+          currency?: string | null
+          email?: string | null
+          event_id: string
+          full_name?: string | null
+          group_name?: string | null
+          id?: string
+          is_anonymous?: boolean
+          is_featured?: boolean
+          is_pinned?: boolean
+          kind?: Database["public"]["Enums"]["submission_kind"]
+          message?: string | null
+          organization_id: string
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["submission_status"]
+        }
+        Update: {
+          amount?: number | null
+          approved_at?: string | null
+          created_at?: string
+          currency?: string | null
+          email?: string | null
+          event_id?: string
+          full_name?: string | null
+          group_name?: string | null
+          id?: string
+          is_anonymous?: boolean
+          is_featured?: boolean
+          is_pinned?: boolean
+          kind?: Database["public"]["Enums"]["submission_kind"]
+          message?: string | null
+          organization_id?: string
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["submission_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submissions_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submissions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          organization_id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          organization_id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          organization_id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_org_role: {
+        Args: {
+          _org_id: string
+          _roles: Database["public"]["Enums"]["app_role"][]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_org_member: {
+        Args: { _org_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "owner" | "admin" | "moderator" | "cashier" | "participant"
+      payment_method:
+        | "cash"
+        | "mobile_money"
+        | "card"
+        | "bank_transfer"
+        | "other"
+      submission_kind: "donation" | "prayer" | "thanksgiving" | "support"
+      submission_status: "pending" | "approved" | "rejected" | "hidden"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +388,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["owner", "admin", "moderator", "cashier", "participant"],
+      payment_method: [
+        "cash",
+        "mobile_money",
+        "card",
+        "bank_transfer",
+        "other",
+      ],
+      submission_kind: ["donation", "prayer", "thanksgiving", "support"],
+      submission_status: ["pending", "approved", "rejected", "hidden"],
+    },
   },
 } as const
