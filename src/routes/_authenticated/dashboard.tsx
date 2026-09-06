@@ -98,7 +98,7 @@ function Dashboard() {
             )}
             <div className="grid gap-4 md:grid-cols-2">
               {eventsQ.data?.map((e) => (
-                <Link key={e.id} to="/_authenticated/events/$eventId" params={{ eventId: e.id }} className="group">
+                <Link key={e.id} to="/events/$eventId" params={{ eventId: e.id }} className="group">
                   <Card className="overflow-hidden p-0 transition hover:shadow-elevated">
                     <div className="h-24 bg-gradient-gold" />
                     <div className="p-5">
